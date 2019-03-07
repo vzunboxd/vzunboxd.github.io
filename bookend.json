@@ -1,0 +1,28 @@
+{
+  "bookendVersion": "v1.0",
+  "shareProviders": [
+    "email"
+  ],
+  "components": [
+    {
+      "type": "heading",
+      "text": "Get More Information"
+    },
+    {
+      "type": "small",
+      "title": "Samsung Galaxy S10 Launch Page",
+      "url": "https://unboxd.multiscreensite.com/samsung-launch-2-21",
+      "image": "https://irp-cdn.multiscreensite.com/2e3f7154/dms3rep/multi/tablet/SamsungS10PlusBanner_Thin.jpg"
+    },
+    
+    {
+      "type": "cta-link",
+      "links": [
+        {
+          "text": "Learn more",
+          "url": "https://www.ampproject.org/stories/"
+        }
+      ]
+    }
+  ]
+}
