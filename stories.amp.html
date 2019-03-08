@@ -12,6 +12,7 @@
     <script async custom-element="amp-story"
         src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
     <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400" rel="stylesheet">
     <style amp-custom>
       amp-story {
@@ -346,6 +347,29 @@
               </amp-story-grid-layer>
           </amp-story-page>
         <amp-story-bookend src="vzunboxd.github.io/bookend.json" layout="nodisplay"></amp-story-bookend>
+        <amp-analytics type="gtag" data-credentials="include">
+                <script type="application/json">
+                {
+                  "vars" : {
+                    "gtag_id": "UA-118214065-1",
+                    "config" : {
+                      "UA-118214065-1": { "groups": "default" }
+                    }
+                  },
+                  "triggers": {
+                    "trackPageview": {
+                      "on": "story-page-visible",
+                      "request": "pageview",
+                      "on": "story-bookend-enter",
+                      "on": "story-bookend-exit",
+                      "extraUrlParams": {
+                        "cd1": "storyPageIndex",
+                        "cd2": "storyPageId",
+                        "cd3": "storyProgress"
+                      }}}
+                }
+                </script>
+            </amp-analytics>
       </amp-story>
   </body>
 </html>
