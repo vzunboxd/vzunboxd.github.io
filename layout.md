@@ -4,11 +4,10 @@ title: Unboxd Headlines
 cover:
    title: March Promo Refresh
    subtitle: by Unboxd
-   background: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/cover+new.png
-   backgroundimg: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/cover+pic.png
+   background: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/cover.png
+   backgroundimg: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/coverimg.png
 pages: 
- - background: /images/placesjournal.png
+ - background: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/Page+1+text.png
    animate
-   text: 
-   overlay:      
+   overlay: https://irp-cdn.multiscreensite.com/5820b42a/dms3rep/multi/bogo-gif.gif      
 ---
