@@ -1,5 +1,5 @@
 ---
-layout: ampstory
+layout: promo.amp.html
 title: Unboxd Headlines
 cover:
    title: March Promo Refresh
