@@ -1,4 +1,6 @@
 theme: jekyll-theme-cayman
+name: VZUnboxd
+markdown: kramdown
 collections:
 stories:
   output: true
