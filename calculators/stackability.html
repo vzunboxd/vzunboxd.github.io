@@ -1,0 +1,501 @@
+<script type="text/ecmascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+<style>
+td, div.dmInner select
+{
+	font-weight: bold;
+	font-size: 14px !important;
+	font-family: NeueHaasGroteskDisp Std, Arial, Helvetica, sans-serif;
+}
+hr
+{
+	background-color:black !important;
+	height: 1px;
+}
+img 
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  autofit;
+}
+</style>
+<table style="padding:5px;border-top:5px solid black;border-bottom:5px solid black" cellpadding=5px>
+<tbody>
+<tr>
+
+<!--/* Promo Selection Menu */    -->
+<tr>
+<td colspan="4" style="text-align:center">Stackability Calculator</td>
+</tr>
+<td colspan="2">Promotion 1</td>
+<td><select id="promo" name="promo" class="selects">
+        <option value="" selected disabled hidden> -- select an option -- </option>   
+        <option value="BMSM">Buy More Save More</option>
+        <option value="tradein">Up To $450 Trade-in Offer</option>
+        <option value="mastercard">$200 Switcher MasterCard Offer</option>
+	<option value="Samsung">Samsung BOGO</option>
+        <option value="Standalone">Standalone tablet offer</option>
+        <option value="LG">$350 Off LG V8/LG V40</option>    
+        <option value="entry">Entry Level Smartphone</option>
+        <option value="byod">$150 BYOD Mastercard</option>
+        <option value="palm">Palm Trade-in</option>
+        <option value="hum">HUM Companion Bundle ($25 off)</option>
+</select></td>
+<tr><td colspan="2">Promotion 2</td>
+<td><select id="stack" name="stack" class="selects">
+        <option value="" selected disabled hidden> -- select an option -- </option>
+        <option value="BMSM">Buy More Save More</option>
+        <option value="tradein">Up To $450 Trade-in Offer</option>
+        <option value="mastercard">$200 Switcher MasterCard Offer</option>
+	<option value="Samsung">Samsung BOGO</option>
+        <option value="Standalone">Standalone tablet offer</option>
+        <option value="LG">$350 Off LG V8/LG V40</option>    
+        <option value="entry">Entry Level Smartphone</option>
+        <option value="byod">$150 BYOD Mastercard</option>
+        <option value="palm">Palm Trade-in</option>
+        <option value="hum">HUM Companion Bundle ($25 off)</option>
+    </select></td></tr>
+<tr id='YesStack' hidden>
+<td colspan="4" style="text-align:center">These promotions stack</td>
+</tr>
+<tr id='NoStack' hidden>
+<td colspan="4" style="text-align:center">These promotions do not stack</td>
+</tr>
+<tr id='NeutralStack' hidden>
+<td colspan="4" style="text-align:center">Can be combined on the same order</td>
+</tr>
+<tr id='check' hidden>
+<td colspan="4"><img src="http://www.clker.com/cliparts/2/k/n/l/C/Q/transparent-green-checkmark-md.png" alt="check mark" width="39" height="39"></td>
+</tr>
+<tr id='wrong' hidden>
+<td colspan="4"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png" alt="red x" width="39" height="39"></td>
+</tr>
+<tr id='shrug' hidden>
+<td colspan="4"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Black_check.svg/2000px-Black_check.svg.png" alt="shrug" width="39" height="39"></td>
+</tr>
+<tr id='unlimited' hidden>
+<td colspan="4" style="text-align:center;color:dimgrey;font-size:10px">Stackable on Unlimited plan only</td>
+</tr>
+<tr id='buyget' hidden>
+<td colspan="4" style="text-align:center;color:dimgrey;font-size:10px">Applicable to both Buy and Get devices</td>
+</tr>
+<tr id='dpp' hidden>
+<td colspan="4" style="text-align:center;color:dimgrey;font-size:10px">Applicable on DPP only</td>
+</tr>
+<tr id='buy' hidden>
+<td colspan="4" style="text-align:center;color:dimgrey;font-size:10px">Applicable to Buy device only</td>
+</tr>
+<tr id='music' hidden>
+<td colspan="4" style="text-align:center;color:dimgrey;font-size:10px">Beyond or Above unlimited plan required</td>
+</tr>
+<tr><td colspan="4" style="text-align:center"><input id="reset" type=button value="Reset"></td></tr>
+</tbody>
+</table>
+<br>
+
+<!--/* Retail Cost Matrix */-->
+<script type="text/javascript">
+var yes=0, neutral=0, no=0;
+
+$(document).ready(function(){
+	/*var index =$("#buy").children(":selected")[0].index;
+	var gbindex =$("#gb").children(":selected")[0].index;
+	var tradeindex =$("#tradein").children(":selected")[0].index;
+	populateCost(index,gbindex,tradeindex);*/
+	$('#promo').val('');
+	$('#stack').val('');
+    $("#YesStack").hide();
+    $("#NoStack").hide();
+    $("#NeutralStack").hide();
+    $("#check").hide();
+    $("#wrong").hide();
+    $("#shrug").hide();
+    $("#buyget").hide();
+    $("#dpp").hide();
+    $("#buy").hide();
+    $("#music").hide();
+    $("#unlimited").hide();
+});
+
+///* Populates storage selection menu options and discount options based on phone selected in Buy menu */ 
+$("#promo").change(function() {
+	var index =$(this).children(":selected")[0].index;
+    var promo1 = $(this).children(":selected")[0].innerHTML;
+    $("select[id^='stack'] option:eq(0)").prop('selected', true);
+    
+     $("select[id^='stack'] option[value='BMSM']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='tradein']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='mastercard']").removeAttr('disabled')
+     $("select[id^='stack'] option[value='Samsung']").removeAttr('disabled')
+     $("select[id^='stack'] option[value='Standalone']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='LG']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='entry']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='byod']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='palm']").removeAttr('disabled');
+     $("select[id^='stack'] option[value='hum']").removeAttr('disabled');
+    
+    if (promo1 == "Buy More Save More")
+    { 
+        $("select[id^='stack'] option[value='BMSM']").attr('disabled', 'disabled');
+        
+    }
+    else if (promo1 == "Up To $450 Trade-in Offer")
+    { 
+        $("select[id^='stack'] option[value='BMSM']").removeAttr('disabled');
+        $("select[id^='stack'] option[value='tradein']").attr('disabled','disabled');
+    }
+    else if (promo1 == "$200 Switcher MasterCard Offer")
+    { 
+        $("select[id^='stack'] option[value='tradein']").removeAttr('disabled');
+        $("select[id^='stack'] option[value='mastercard']").attr('disabled','disabled');
+    }
+    else if (promo1 == "Samsung BOGO")
+    { 
+        $("select[id^='stack'] option[value='tradein']").removeAttr('disabled');
+        $("select[id^='stack'] option[value='Samsung']").attr('disabled','disabled');
+    }
+    else if (promo1 == "Standalone tablet offer")
+    {
+         $("select[id^='stack'] option[value='mastercard']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='Standalone']").attr('disabled','disabled');
+    }
+    else if (promo1 == "$350 Off LG V8/LG V40")
+    {
+         $("select[id^='stack'] option[value='Standalone']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='LG']").attr('disabled','disabled');
+    }
+    else if (promo1 == "Entry Level Smartphone")
+    {
+         $("select[id^='stack'] option[value='LG']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='entry']").attr('disabled','disabled');
+    }
+    else if (promo1 == "$150 BYOD Mastercard")
+    {
+         $("select[id^='stack'] option[value='entry']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='byod']").attr('disabled','disabled');
+    }
+    else if (promo1 == "Palm Trade-in")
+    {
+         $("select[id^='stack'] option[value='byod']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='palm']").attr('disabled','disabled');
+    }
+	else if (promo1 == "HUM Companion Bundle ($25 off)")
+    {
+         $("select[id^='stack'] option[value='palm']").removeAttr('disabled');
+         $("select[id^='stack'] option[value='hum']").attr('disabled','disabled');
+    }
+    else
+    {
+             $("select[id^='stack'] option[value='BMSM']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='tradein']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='mastercard']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='Samsung']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='Standalone']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='LG']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='entry']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='byod']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='palm']").removeAttr('disabled');
+             $("select[id^='stack'] option[value='hum']").removeAttr('disabled');
+    }
+        
+	if ($("#stack").children(":selected").length > 0)
+	{
+		var stackindex =$("#stack").children(":selected")[0].index;
+		populatestackability(index,stackindex);
+	}
+});
+    
+$("#stack").change(function() {
+	var index =$("#promo").children(":selected")[0].index;
+    var promo1 = $("#promo").children(":selected")[0].innerHTML;
+	var stackindex =$(this).children(":selected")[0].index;
+    var promo2 = $(this).children(":selected")[0].innerHTML;
+    
+    if (promo1 == "Buy More Save More")
+    {
+       if(promo2 == "HUM Companion Bundle ($25 off)" || promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+    }
+    else if (promo1 == "Up To $450 Trade-in Offer")
+    {
+        if (promo2 == "Buy More Save More" || promo2 == "$350 Off LG V8/LG V40" || promo2 == "$200 Switcher MasterCard Offer")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+        else if (promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+ }
+    else if (promo1 == "Samsung BOGO")
+    {
+        if (promo2 == "Buy More Save More" || promo2 == "Up To $450 Trade-in Offer" || promo2 == "$350 Off LG V8/LG V40" || promo2 == "$200 Switcher MasterCard Offer")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+        else if (promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+    }
+    
+    else if (promo1 == "$200 Switcher MasterCard Offer")
+    {
+        if (promo2 == "Buy More Save More" || promo2 == "Up To $450 Trade-in Offer" || promo2 == "$350 Off LG V8/LG V40")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+        else if(promo2 == "$150 BYOD Mastercard" || promo2 == "Entry Level Smartphone" || promo2 == "Palm Trade-in")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+    }
+    
+    else if (promo1 == "Standalone tablet offer")
+    {
+        if (promo2 == "Buy More Save More")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+        else if (promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+    }
+    
+    else if (promo1 == "$350 Off LG V8/LG V40")
+    {
+         if (promo2 == "Buy More Save More" || promo2 == "Up To $450 Trade-in Offer" || promo2 == "$200 Switcher MasterCard Offer")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0;
+            }
+        else if(promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+    }
+    
+    else if (promo1 == "Entry Level Smartphone")
+    {
+        if(promo2 == "Buy More Save More")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0; 
+            }
+        else if(promo2 == "$150 BYOD Mastercard" || promo2 == "$200 Switcher MasterCard Offer")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1; 
+                
+            }
+    }
+     else if (promo1 == "$150 BYOD Mastercard")
+    {
+                yes = 0;
+                no = 1;
+                neutral = 0; 
+                
+    }
+    else if (promo1 == "Palm Trade-in")
+    {
+         if(promo2 == "Buy More Save More")
+            {
+                yes = 1;
+                no = 0;
+                neutral = 0; 
+            }
+        else if(promo2 == "$150 BYOD Mastercard" || promo2 == "$200 Switcher MasterCard Offer")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1; 
+                
+            }
+    }
+    else if (promo1 == "HUM Companion Bundle ($25 off)")
+    {
+        if (promo2 == "Buy More Save More" || promo2 == "$150 BYOD Mastercard")
+            {
+                yes = 0;
+                no = 1;
+                neutral = 0;
+            }
+        else
+            {
+                yes = 0;
+                no = 0;
+                neutral = 1;
+            }
+    }
+    else
+    {
+        yes = 0;
+        no = 0;
+        neutral = 0;
+    }
+    
+	if ($("#stack").children(":selected").length > 0)
+	{
+		var stackindex =$("#stack").children(":selected")[0].index;
+		populatestackability(index,stackindex);
+	}
+});
+
+$("#reset").click(function () {
+	document.location.reload();
+});
+
+function populatestackability(index,gbindex,tradeindex)
+{
+	var stacking="";
+    var promo1 = $("#promo").children(":selected")[0].innerHTML;
+    var promo2 = $("#stack").children(":selected")[0].innerHTML;
+    
+    $("#YesStack").hide();
+    $("#NoStack").hide();
+    $("#NeutralStack").hide();
+    $("#check").hide();
+    $("#wrong").hide();
+    $("#shrug").hide();
+    $("#buyget").hide();
+    $("#dpp").hide();
+    $("#buy").hide();
+    $("#music").hide();
+    $("#unlimited").hide();
+    
+    if(yes!=0 || no!=0 || neutral!=0)
+    {
+        if(yes==1)
+        {
+            $("#YesStack").show();
+            $("#NoStack").hide();
+            $("#NeutralStack").hide();
+            $("#check").show();
+            $("#wrong").hide();
+            $("#shrug").hide();
+            
+            if(promo1 == "Buy More Save More")
+            {
+                if(promo2 =="Standalone tablet offer")
+                    {
+                        $("#dpp").show();
+                    }
+                 else
+                    {
+                        $("#dpp").hide();
+                    }
+            }
+            else if(promo1 == "Standalone tablet offer")
+                {
+                    if(promo2 == "Buy More Save More")
+                    {
+                        $("#dpp").show();
+                    }
+                else
+                    {
+                        $("#dpp").hide();
+                    }
+                }
+            else
+                {
+                    $("#unlimited").hide();
+                    $("#buyget").hide();
+                    $("#buy").hide();
+                    $("#dpp").hide();
+                }
+        }
+        else if(no==1)
+        {
+            $("#YesStack").hide();
+            $("#NoStack").show();
+            $("#NeutralStack").hide();
+            $("#check").hide();
+            $("#wrong").show();
+            $("#shrug").hide();
+        }
+        else
+        {
+            $("#YesStack").hide();
+            $("#NoStack").hide();
+            $("#NeutralStack").show();
+            $("#check").hide();
+            $("#wrong").hide();
+            $("#shrug").show();
+        }
+    }
+}
+</script>
